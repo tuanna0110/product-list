@@ -12,8 +12,14 @@ sudo alternatives --set javac /opt/jdk1.8.0_101/bin/javac
 #install mariadb
 sudo yum -y install mariadb-server mariadb
 sudo service mariadb start
+sudo systemctl enable mariadb.service
 mysqladmin -u root password root
-mysql -uroot -proot -e "CREATE DATABASE 'product_list'; GRANT ALL PRIVILEGES ON product_list.* TO 'db_user'@'localhost' IDENTIFIED BY 'db_passwd'; GRANT ALL PRIVILEGES ON product_list.* TO 'db_user'@'%' IDENTIFIED BY 'db_passwd'";
+
+#create development database
+mysql -uroot -proot -e "CREATE DATABASE product_list; GRANT ALL PRIVILEGES ON product_list.* TO 'db_user'@'localhost' IDENTIFIED BY 'db_passwd'; GRANT ALL PRIVILEGES ON product_list.* TO 'db_user'@'%' IDENTIFIED BY 'db_passwd'";
+
+#create test database
+mysql -uroot -proot -e "CREATE DATABASE product_list_test; GRANT ALL PRIVILEGES ON product_list_test.* TO 'db_user'@'localhost' IDENTIFIED BY 'db_passwd'; GRANT ALL PRIVILEGES ON product_list_test.* TO 'db_user'@'%' IDENTIFIED BY 'db_passwd'";
 
 #create image folder
 sudo mkdir -p /tmp/productlist_img/

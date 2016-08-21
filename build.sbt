@@ -13,3 +13,5 @@ libraryDependencies ++= Seq(
   evolutions,
   "mysql" % "mysql-connector-java" % "5.1.18"
 )
+
+javaOptions in Test += "-Dconfig.file=conf/application.test.conf"

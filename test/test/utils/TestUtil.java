@@ -1,6 +1,7 @@
 package test.utils;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.commons.io.FileUtils;
 
@@ -22,16 +23,42 @@ public class TestUtil {
 		prepareTestDatabaseFromFile(fileName, DROP_DB_INDEX);
 	}
 	
+	/**
+	 * Evolutionと同じフォマットがあるファイルからテストデータを作成
+	 * 
+	 * @param fileName
+	 *            Evolutionと同じフォマットがあるファイル
+	 * @param index
+	 *            CREATE_DB_INDEX(0): UP分部にあるSQLを実行
+	 *            DROP_DB_INDEX(1): DOWN分部にあるSQLを実行            
+	 */
 	private static void prepareTestDatabaseFromFile(String fileName, int index) {
 		try {
+
+			//偽のApplicationを開始する
 			Application app = Helpers.fakeApplication();
 			Helpers.start(app);
+			
+			//index変数によって、ファイルにあるUPかDOWNかのSQL分を習得する
 		    String evolutionContent = FileUtils.readFileToString(
 		            app.getWrappedApplication().getFile(TESTDATA_PATH + fileName));
 		    String[] splittedEvolutionContent = evolutionContent.split("# --- !Ups");
 		    String[] upsDowns = splittedEvolutionContent[1].split("# --- !Downs");
 		    String sqls = upsDowns[index];
-		    Ebean.execute(Ebean.createCallableSql(sqls));
+		    
+		    //複数のSQL分を一つ一つ実行します。必要ではないですが、Java8のラムダ式を使ってみたい。
+		    Arrays.stream(sqls.split(System.getProperty("line.separator")))
+		        .map((sql) -> {
+		        	return sql.trim();
+		        })
+		    	.filter((sql) -> {
+		    		return sql!= null && !sql.isEmpty();
+		    	})
+		    	.forEach((sql) -> {
+		    		Ebean.execute(Ebean.createCallableSql(sql));
+		    	});
+		    
+		    //偽のApplicationを中止する
 		    Helpers.stop(app);
 		} catch (IOException e) {
 			throw new RuntimeException(e);

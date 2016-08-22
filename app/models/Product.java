@@ -11,20 +11,48 @@ public class Product extends BaseModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long id;
+	private Long id;
 
 	@Constraints.MaxLength(100)
 	@Constraints.Required
-	public String title;
+	private String title;
 
 	@Constraints.MaxLength(500)
 	@Constraints.Required
-	public String description;
+	private String description;
 
 	@Constraints.Max(2147483647)
 	@Constraints.Min(0)
 	@Constraints.Required
-	public int price;
+	private int price;
+
+	public Long getId() {
+		return id;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
 
 	public static Finder<Long, Product> find = new Finder<Long, Product>(Product.class);
 
@@ -54,9 +82,18 @@ public class Product extends BaseModel {
 	public static List<Product> search(String textSearch, int minPrice, int maxPrice, int orderBy, int limit,
 			int offset) {
 		StringBuilder stringQuery = new StringBuilder("WHERE 1=1");
+		
+		/* TODO: MARIADBのFULLTEXT機能を使ってみたかったですが、
+		 * 日本語で使えるための設定は時間がちょっとかかる。。。
 		if (textSearch != null) {
-			stringQuery.append(" AND MATCH(title, description) AGAINST ('" + textSearch + "' IN BOOLEAN MODE");
+			stringQuery.append(" AND MATCH(description) AGAINST ('" + textSearch + "' IN BOOLEAN MODE)");
 		}
+		*/
+		
+		if (textSearch != null) {
+			stringQuery.append(" AND (title LIKE '%" + textSearch + "%' OR description LIKE '%" + textSearch + "%')");
+		}
+		
 		if (minPrice >= 0) {
 			stringQuery.append(" AND price >= " + minPrice);
 		}
@@ -73,7 +110,6 @@ public class Product extends BaseModel {
 
 		stringQuery.append(" LIMIT " + limit);
 		stringQuery.append(" OFFSET " + offset);
-
 		return find.setQuery(stringQuery.toString()).findList();
 	}
 }

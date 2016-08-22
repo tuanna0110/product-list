@@ -15,12 +15,12 @@ public class UserTest extends WithApplication {
 	private static String testdataFile = "usertest.sql";
 	
 	@BeforeClass
-	public static void startFakeApplication() throws IOException {
+	public static void start() throws IOException {
 		TestUtil.createTestDatabase(testdataFile);
 	}
 
 	@AfterClass
-	public static void endFakeApplication() {
+	public static void end() {
 		TestUtil.dropTestDatabase(testdataFile);
 	}
 	

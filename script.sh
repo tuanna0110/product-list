@@ -16,10 +16,10 @@ sudo systemctl enable mariadb.service
 mysqladmin -u root password root
 
 #create development database
-mysql -uroot -proot -e "CREATE DATABASE product_list; GRANT ALL PRIVILEGES ON product_list.* TO 'db_user'@'localhost' IDENTIFIED BY 'db_passwd'; GRANT ALL PRIVILEGES ON product_list.* TO 'db_user'@'%' IDENTIFIED BY 'db_passwd'";
+mysql -uroot -proot -e "CREATE DATABASE product_list CHARACTER SET utf8 COLLATE utf8_general_ci; GRANT ALL PRIVILEGES ON product_list.* TO 'db_user'@'localhost' IDENTIFIED BY 'db_passwd'; GRANT ALL PRIVILEGES ON product_list.* TO 'db_user'@'%' IDENTIFIED BY 'db_passwd'";
 
 #create test database
-mysql -uroot -proot -e "CREATE DATABASE product_list_test; GRANT ALL PRIVILEGES ON product_list_test.* TO 'db_user'@'localhost' IDENTIFIED BY 'db_passwd'; GRANT ALL PRIVILEGES ON product_list_test.* TO 'db_user'@'%' IDENTIFIED BY 'db_passwd'";
+mysql -uroot -proot -e "CREATE DATABASE product_list_test CHARACTER SET utf8 COLLATE utf8_general_ci; GRANT ALL PRIVILEGES ON product_list_test.* TO 'db_user'@'localhost' IDENTIFIED BY 'db_passwd'; GRANT ALL PRIVILEGES ON product_list_test.* TO 'db_user'@'%' IDENTIFIED BY 'db_passwd'";
 
 #create image folder
 sudo mkdir -p /tmp/productlist_img/

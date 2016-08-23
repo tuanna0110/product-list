@@ -17,10 +17,6 @@ Vagrant.configure(2) do |config|
     config.gatling.latency = 1.5
   end
 
-  config.vm.provider "virtualbox" do |vb|
-    vb.memory = "1024"
-  end
-
   config.vm.provision "shell", path: "script.sh"
   
 end

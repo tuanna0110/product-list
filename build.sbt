@@ -11,7 +11,8 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   evolutions,
-  "mysql" % "mysql-connector-java" % "5.1.18"
+  "mysql" % "mysql-connector-java" % "5.1.18",
+  "com.google.code.gson" % "gson" % "2.2"
 )
 
 javaOptions in Test += "-Dconfig.file=conf/application.test.conf"

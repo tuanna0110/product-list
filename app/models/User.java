@@ -14,17 +14,17 @@ public class User extends BaseModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column
 	private String authToken;
 
 	@Column
 	@Constraints.MaxLength(256)
 	@Constraints.Required
-	@Constraints.Email
 	private String username;
-
+	
 	@Column
-	@Constraints.Required
 	@Constraints.MaxLength(256)
+	@Constraints.Required
 	private String password;
 
 	public static Finder<Long, User> find = new Finder<>(User.class);
@@ -33,7 +33,7 @@ public class User extends BaseModel {
 		return this.username;
 	}
 
-	public void setUsername(String emailAddress) {
+	public void setUsername(String username) {
 		this.username = username.toLowerCase();
 	}
 

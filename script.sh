@@ -23,3 +23,4 @@ mysql -uroot -proot -e "CREATE DATABASE product_list_test CHARACTER SET utf8 COL
 
 #create image folder
 sudo mkdir -p /tmp/productlist_img/
+sudo chown -R vagrant:vagrant /tmp/productlist_img/

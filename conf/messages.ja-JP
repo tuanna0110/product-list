@@ -1,0 +1,6 @@
+product.not.found=商品が存在しません。
+invalid.input=無効な入力データです。
+file.invalid.format=アップロードされたファイルがイメージではないかもしれませんね。
+file.too.large=ファイルのサイズは最大制限を超えました。
+file.cannot.delete=ファイルを削除できません。
+login.failed=ユーザまたはパスワードが正しいではないです。

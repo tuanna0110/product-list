@@ -11,8 +11,7 @@ import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * created_atフィルードとupdated_atフィルードを更新するための共有するクラス
- * 
+ * created_atフィルードとupdated_atフィルードを更新するための共有するModel
  */
 @MappedSuperclass
 public class BaseModel extends Model {

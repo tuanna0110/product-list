@@ -66,9 +66,16 @@ public class ProductTest extends WithApplication {
 		assertEquals("テスト　テスト　テスト　テスト　テスト　テスト　テスト", Product.search("テスト", 100, 700, -1, 10, 0).get(0).getTitle());
 		
 		assertEquals(7, Product.search("テスト", 100, 700, 2, 10, 0).size());
-		assertEquals(100, Product.search("テスト", 100, 700, 2, 10, 0).get(0).getPrice());
+		assertEquals(100, Product.search("テスト", 100, 700, 2, 10, 0).get(0).getPrice().intValue());
 		
 		assertEquals(7, Product.search("テスト", 100, 700, -2, 10, 0).size());
-		assertEquals(700, Product.search("テスト", 100, 700, -2, 10, 0).get(0).getPrice());
+		assertEquals(700, Product.search("テスト", 100, 700, -2, 10, 0).get(0).getPrice().intValue());
+	}
+	
+	@Test
+	public void testCount() {
+		assertEquals(7, Product.count("テスト", 100, 700));
+		assertEquals(2, Product.search("テスト", 600, 700, 2, 10, 0).size());
+		assertEquals(0, Product.search("テスト", 800, 700, 2, 10, 0).size());
 	}
 }

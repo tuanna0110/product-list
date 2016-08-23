@@ -4,10 +4,23 @@
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
-# An example controller showing how to use dependency injection
-GET     /count                      controllers.CountController.count
-# An example controller showing how to write asynchronous code
-GET     /message                    controllers.AsyncController.message
-
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+#　ユーザ
+POST    /v1/login				          controllers.UserController.login()
+POST    /v1/logout				          controllers.UserController.logout()
+
+#　商品リスト
+GET     /v1/products				      controllers.ProductListController.get()
+
+# 商品
+POST    /v1/product					      controllers.ProductController.create()
+GET     /v1/product/$id<[0-9]+>           controllers.ProductController.read(id: Long)
+PUT     /v1/product/$id<[0-9]+>           controllers.ProductController.update(id: Long)
+DELETE  /v1/product/$id<[0-9]+>           controllers.ProductController.delete(id: Long)
+
+# 商品の画像
+POST    /v1/product/$id<[0-9]+>/image     controllers.ProductImageController.create(id: Long)
+GET     /v1/product/$id<[0-9]+>/image     controllers.ProductImageController.read(id: Long)
+DELETE  /v1/product/$id<[0-9]+>/image     controllers.ProductImageController.delete(id: Long)

@@ -3,7 +3,6 @@ package models;
 import play.data.validation.Constraints;
 import javax.persistence.*;
 import java.util.List;
-
 import utils.ConstantUtil;
 
 @Entity
@@ -22,10 +21,18 @@ public class Product extends BaseModel {
 	private String description;
 
 	@Constraints.Max(2147483647)
-	@Constraints.Min(0)
+	@Constraints.Min(1)
 	@Constraints.Required
-	private int price;
+	private Integer price;	
 
+	@Column
+	@Constraints.MaxLength(256)
+	private String imageID;
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -46,12 +53,20 @@ public class Product extends BaseModel {
 		this.description = description;
 	}
 
-	public int getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(Integer price) {
 		this.price = price;
+	}	
+
+	public String getImageID() {
+		return imageID;
+	}
+
+	public void setImageID(String imageID) {
+		this.imageID = imageID;
 	}
 
 	public static Finder<Long, Product> find = new Finder<Long, Product>(Product.class);
@@ -80,7 +95,27 @@ public class Product extends BaseModel {
 	 * @return List<Product> 検索条件に該当する商品リスト
 	 */
 	public static List<Product> search(String textSearch, int minPrice, int maxPrice, int orderBy, int limit,
-			int offset) {
+			int offset) {	
+		StringBuilder stringQuery = buildConditonalQuery(textSearch, minPrice, maxPrice);
+
+		for (ConstantUtil.ORDER_BY utilOrderBy : ConstantUtil.ORDER_BY.values()) {
+			if (utilOrderBy.getValue() == orderBy) {
+				stringQuery.append(" ORDER BY " + utilOrderBy.toString());
+				break;
+			}
+		};
+
+		stringQuery.append(" LIMIT " + limit);
+		stringQuery.append(" OFFSET " + offset);
+		return find.setQuery(stringQuery.toString()).findList();
+	}
+	
+	public static int count(String textSearch, int minPrice, int maxPrice) {
+		StringBuilder stringQuery = buildConditonalQuery(textSearch, minPrice, maxPrice);
+		return find.setQuery(stringQuery.toString()).findRowCount();
+	}
+	
+	private static StringBuilder buildConditonalQuery(String textSearch, int minPrice, int maxPrice) {
 		StringBuilder stringQuery = new StringBuilder("WHERE 1=1");
 		
 		/* TODO: MARIADBのFULLTEXT機能を使ってみたかったですが、
@@ -100,16 +135,7 @@ public class Product extends BaseModel {
 		if (maxPrice >= 0) {
 			stringQuery.append(" AND price <= " + maxPrice);
 		}
-
-		for (ConstantUtil.ORDER_BY utilOrderBy : ConstantUtil.ORDER_BY.values()) {
-			if (utilOrderBy.getValue() == orderBy) {
-				stringQuery.append(" ORDER BY " + utilOrderBy);
-				break;
-			}
-		};
-
-		stringQuery.append(" LIMIT " + limit);
-		stringQuery.append(" OFFSET " + offset);
-		return find.setQuery(stringQuery.toString()).findList();
+		
+		return stringQuery;
 	}
 }

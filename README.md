@@ -14,13 +14,13 @@ Play Frameworkに触ってみて、RESTfulなAPIアプリケーションを作�
 
 - Play Framework 2.5.5
 
-#WindowsOSを使う場合、Vagrantを使って同じな開発環境を設定てきます。
+WindowsOSを使う場合、Vagrantを使って同じな開発環境を設定てきます。
 ```sh
 vagrant plugin install vagrant-vbguest
 vagrant up
 ```
 
-#プロジェクトを起動するために、プロジェクトのフォルーダにアクセスして下記のコマンドをお使いになってください。
+プロジェクトを起動するために、プロジェクトのフォルーダにアクセスして下記のコマンドをお使いになってください。
 ```sh
 ./bin/activator
 run

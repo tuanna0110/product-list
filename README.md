@@ -14,6 +14,9 @@ Play Frameworkに触ってみて、RESTfulなAPIアプリケーションを作�
 
 - Play Framework 2.5.5
 
+開発のためのデータバースのコンフィグはconf/application.confに置きます。
+テストのためのデータバースのコンフィグはconf/application.test.confに置きます。
+
 WindowsOSを使う場合、Vagrantを使って同じな開発環境を設定てきます。
 ```sh
 vagrant plugin install vagrant-vbguest
